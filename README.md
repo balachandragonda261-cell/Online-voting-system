@@ -4,6 +4,20 @@ A secure, full-stack **Online Voting System** built with Java Servlets, JSP, and
 
 ---
 
+## 🌐 Live Demo
+
+> **🔗 [https://online-voting-system-qux6.onrender.com](https://online-voting-system-qux6.onrender.com)**
+
+| Role | Email | Password |
+|------|-------|----------|
+| **Admin** | `admin@voting.com` | `admin123` |
+| **Voter** | `alice@voting.com` | `voter123` |
+| **Voter** | `bob@voting.com` | `voter123` |
+
+> ⚠️ Hosted on Render free tier — may take **30–60 seconds** to wake up if inactive.
+
+---
+
 ## ✨ Features
 
 ### 👤 Voter Features
@@ -33,7 +47,8 @@ A secure, full-stack **Online Voting System** built with Java Servlets, JSP, and
 | Frontend | JSP (JavaServer Pages), HTML5, CSS3, JavaScript |
 | Database | H2 (embedded, MySQL-compatibility mode) |
 | Build Tool | Apache Maven 3.9+ |
-| Server | Apache Tomcat 7 (via Maven plugin) |
+| Server | Apache Tomcat 9 (Docker) |
+| Hosting | Render.com (Docker deployment) |
 | Security | BCrypt password hashing, CSRF filters, Role-based AuthFilter |
 | 2FA | TOTP Two-Factor Authentication |
 | AI Assistant | Servlet-based context-aware chatbot (ElectionDAO / CandidateDAO) |
@@ -43,7 +58,7 @@ A secure, full-stack **Online Voting System** built with Java Servlets, JSP, and
 ## 📂 Project Structure
 
 ```
-Project1/
+Online-voting-system/
 ├── src/
 │   └── main/
 │       ├── java/com/voting/
@@ -54,7 +69,7 @@ Project1/
 │       │   ├── service/        # Business logic (FraudDetection)
 │       │   └── util/           # DB Connection, Password Util, Crypto
 │       ├── resources/sql/
-│       │   └── schema.sql      # Database schema + seed data
+│       │   └── schema.sql      # Database schema
 │       └── webapp/
 │           ├── css/            # Stylesheets
 │           ├── js/             # JavaScript
@@ -64,14 +79,14 @@ Project1/
 │           │   └── common/     # Shared pages (login, register, results)
 │           └── WEB-INF/
 │               └── web.xml     # Servlet configuration
+├── Dockerfile                  # Docker deployment config
 ├── pom.xml                     # Maven build configuration
-├── Dockerfile                  # Docker support
 └── .gitignore
 ```
 
 ---
 
-## ⚙️ Prerequisites
+## ⚙️ Prerequisites (Local Setup)
 
 - Java 11 or higher
 - Apache Maven 3.6+
@@ -79,7 +94,7 @@ Project1/
 
 ---
 
-## 🚀 Installation & Running Locally
+## 🚀 Run Locally
 
 ### 1. Clone the Repository
 ```bash
@@ -99,42 +114,45 @@ http://localhost:8080/
 
 ---
 
-## 🔐 Default Credentials
-
-> ⚠️ Change these immediately in production!
-
-| Role | Email | Password |
-|------|-------|----------|
-| Admin | `admin@voting.com` | `admin123` |
-| Voter | `alice@voting.com` | `voter123` |
-| Voter | `bob@voting.com` | `voter123` |
-
----
-
-## 🗄️ Database
-
-The application uses an **embedded H2 database** (`voting_db.mv.db`) that is auto-initialized on startup using `src/main/resources/sql/schema.sql`.
-
-> The `.mv.db` file is excluded from version control — a fresh database will be created automatically on first run.
-
----
-
-## 🐳 Docker Support
+## 🐳 Run with Docker
 
 ```bash
 docker build -t online-voting-system .
 docker run -p 8080:8080 online-voting-system
 ```
 
+Then open: **http://localhost:8080/**
+
+---
+
+## 🗄️ Database
+
+The application uses an **embedded H2 database** that is auto-initialized on startup via `DatabaseInitializer.java`. Default users are seeded automatically using BCrypt password hashing on every startup.
+
+> The `.mv.db` file is excluded from version control — a fresh database is created automatically on first run.
+
 ---
 
 ## 🔒 Security Notes
 
-- Passwords are hashed using BCrypt
-- CSRF tokens protect all state-changing forms
+- Passwords are hashed using **BCrypt** (cost factor 10)
+- **CSRF tokens** protect all state-changing forms
 - Role-based access: Admins cannot access voter-only routes and vice versa
-- Two-Factor Authentication (TOTP) is available for voters
+- **Two-Factor Authentication** (TOTP) is available for voters
 - No API keys or secrets are stored in the codebase
+
+---
+
+## 🔄 Deploy Updates
+
+Every push to `master` triggers an automatic redeploy on Render:
+
+```bash
+git add .
+git commit -m "your update message"
+git push origin master
+# → Render auto-rebuilds and redeploys!
+```
 
 ---
 
