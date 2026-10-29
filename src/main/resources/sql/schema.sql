@@ -77,9 +77,9 @@ CREATE TABLE IF NOT EXISTS otp_verification (
 -- Insert default admin and voter users
 -- Password is 'admin123' hashed with jBCrypt
 MERGE INTO users (name, email, password_hash, role, status) KEY(email) VALUES 
-('System Admin', 'admin@voting.com', '$2a$10$6MkAn5Kc71rkeO2R.f3ioO3A5pcbefZpY71faeHk6gwr5hKUVKu2S', 'ADMIN', 'APPROVED'),
-('Voter Alice', 'alice@voting.com', '$2a$10$6MkAn5Kc71rkeO2R.f3ioO3A5pcbefZpY71faeHk6gwr5hKUVKu2S', 'VOTER', 'APPROVED'),
-('Voter Bob', 'bob@voting.com', '$2a$10$6MkAn5Kc71rkeO2R.f3ioO3A5pcbefZpY71faeHk6gwr5hKUVKu2S', 'VOTER', 'APPROVED');
+('System Admin', 'admin@voting.com', '$2a$10$96DG4DeOKEvbNUi1BbQazuGIdMouusGXvZOXG/0swk2r6hMKLW2nu', 'ADMIN', 'APPROVED'),
+('Voter Alice', 'alice@voting.com', '$2a$10$eibm5Iya7/exhF2DWkiYeuP247r.nJLGNyPj1Pl8pQDqLqyqRtjQ.', 'VOTER', 'APPROVED'),
+('Voter Bob', 'bob@voting.com', '$2a$10$eibm5Iya7/exhF2DWkiYeuP247r.nJLGNyPj1Pl8pQDqLqyqRtjQ.', 'VOTER', 'APPROVED');
 
 CREATE TABLE IF NOT EXISTS election_voters (
     election_id INT NOT NULL,
