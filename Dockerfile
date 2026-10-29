@@ -1,22 +1,33 @@
-# Build stage
+# =========================================================
+# Stage 1: Build the WAR file using Maven
+# =========================================================
 FROM maven:3.9.6-eclipse-temurin-11 AS build
 WORKDIR /app
 
-# Copy pom.xml and download dependencies (caching step)
+# Copy pom.xml first to cache Maven dependencies
 COPY pom.xml .
 RUN mvn dependency:go-offline -B
 
-# Copy source code and package the WAR file
+# Copy full source and build WAR (skip tests for faster build)
 COPY src ./src
-RUN mvn clean package -DskipTests
+RUN mvn clean package -DskipTests -B
 
-# Run stage
+# =========================================================
+# Stage 2: Run on Tomcat 9 (JRE 11)
+# =========================================================
 FROM tomcat:9.0-jre11
-# Remove default Tomcat apps to avoid conflicts
+
+# Remove default Tomcat sample apps
 RUN rm -rf /usr/local/tomcat/webapps/*
 
-# Copy the built WAR file to ROOT.war so it serves at the root path (/)
+# Copy built WAR to ROOT so it serves at http://host:8080/
 COPY --from=build /app/target/OnlineVotingSystem.war /usr/local/tomcat/webapps/ROOT.war
 
+# H2 database will be stored in /tmp (writable in all containers)
+RUN mkdir -p /tmp
+
+# Expose port 8080
 EXPOSE 8080
+
+# Start Tomcat
 CMD ["catalina.sh", "run"]

@@ -5,9 +5,12 @@ import java.sql.DriverManager;
 import java.sql.SQLException;
 
 public class DBConnection {
-    private static final String URL = "jdbc:h2:./voting_db;MODE=MySQL;DATABASE_TO_LOWER=TRUE;AUTO_SERVER=TRUE;INIT=RUNSCRIPT FROM 'src/main/resources/sql/schema.sql'\\;";
+    // Use /tmp for writable storage in Docker/cloud containers.
+    // AUTO_SERVER=TRUE removed — it tries to bind a TCP port which fails on Render/cloud.
+    // INIT removed — schema is loaded via DatabaseInitializer from classpath.
+    private static final String URL = "jdbc:h2:/tmp/voting_db;MODE=MySQL;DATABASE_TO_LOWER=TRUE";
     private static final String USER = "sa";
-    private static final String PASSWORD = ""; 
+    private static final String PASSWORD = "";
 
     static {
         try {
