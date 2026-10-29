@@ -1,0 +1,47 @@
+# ===== Compiled Output =====
+target/
+*.class
+
+# ===== H2 Local Database (contains live data, not for version control) =====
+*.mv.db
+*.trace.db
+
+# ===== Maven Wrapper & Local Binary =====
+apache-maven-3.9.6/
+maven.zip
+
+# ===== Environment & Secrets =====
+.env
+.env.*
+*.properties.local
+secrets.*
+
+# ===== IDE Files =====
+.idea/
+*.iml
+.eclipse/
+*.project
+*.classpath
+*.settings/
+.vscode/
+.vscode-shared/
+
+# ===== OS Files =====
+.DS_Store
+Thumbs.db
+desktop.ini
+
+# ===== Logs =====
+*.log
+logs/
+
+# ===== Docker (keep Dockerfile, ignore runtime volumes) =====
+docker-compose.override.yml
+
+# ===== Node (if any frontend tooling) =====
+node_modules/
+
+# ===== Temporary Files =====
+*.tmp
+*.bak
+*.swp

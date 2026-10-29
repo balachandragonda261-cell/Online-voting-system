@@ -1,0 +1,9 @@
+target/
+.git/
+.idea/
+*.iml
+.vscode/
+voting_db.mv.db
+voting_db.trace.db
+apache-maven-*/
+maven.zip
