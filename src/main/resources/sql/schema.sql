@@ -74,11 +74,15 @@ CREATE TABLE IF NOT EXISTS otp_verification (
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 );
 
--- Insert default admin and voter users
--- Password is 'admin123' hashed with jBCrypt
-MERGE INTO users (name, email, password_hash, role, status) KEY(email) VALUES 
-('System Admin', 'admin@voting.com', '$2a$10$96DG4DeOKEvbNUi1BbQazuGIdMouusGXvZOXG/0swk2r6hMKLW2nu', 'ADMIN', 'APPROVED'),
-('Voter Alice', 'alice@voting.com', '$2a$10$eibm5Iya7/exhF2DWkiYeuP247r.nJLGNyPj1Pl8pQDqLqyqRtjQ.', 'VOTER', 'APPROVED'),
+-- Always reset default accounts with correct password hashes on startup
+-- admin123 hashed with BCrypt cost 10
+DELETE FROM users WHERE email IN ('admin@voting.com', 'alice@voting.com', 'bob@voting.com');
+INSERT INTO users (name, email, password_hash, role, status) VALUES
+('System Admin', 'admin@voting.com', '$2a$10$96DG4DeOKEvbNUi1BbQazuGIdMouusGXvZOXG/0swk2r6hMKLW2nu', 'ADMIN', 'APPROVED');
+-- voter123 hashed with BCrypt cost 10
+INSERT INTO users (name, email, password_hash, role, status) VALUES
+('Voter Alice', 'alice@voting.com', '$2a$10$eibm5Iya7/exhF2DWkiYeuP247r.nJLGNyPj1Pl8pQDqLqyqRtjQ.', 'VOTER', 'APPROVED');
+INSERT INTO users (name, email, password_hash, role, status) VALUES
 ('Voter Bob', 'bob@voting.com', '$2a$10$eibm5Iya7/exhF2DWkiYeuP247r.nJLGNyPj1Pl8pQDqLqyqRtjQ.', 'VOTER', 'APPROVED');
 
 CREATE TABLE IF NOT EXISTS election_voters (
