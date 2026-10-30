@@ -1,0 +1,14 @@
+services:
+  - type: web
+    name: online-voting-system
+    runtime: docker
+    dockerfilePath: ./Dockerfile
+    plan: free
+    envVars:
+      - key: DB_PATH
+        value: /data/voting_db
+    disk:
+      name: voting-data
+      mountPath: /data
+      sizeGB: 1
+    healthCheckPath: /

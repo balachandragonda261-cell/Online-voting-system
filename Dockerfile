@@ -23,13 +23,17 @@ RUN rm -rf /usr/local/tomcat/webapps/*
 # Copy built WAR to ROOT so it serves at http://host:8080/
 COPY --from=build /app/target/OnlineVotingSystem.war /usr/local/tomcat/webapps/ROOT.war
 
-# H2 database stored in /data (can be mounted as a persistent volume on Railway)
+# Render & Railway use /data as persistent disk mount point
 RUN mkdir -p /data
 
-# Tell the app where to store the H2 database file
+# Set DB path — overridden by render.yaml/railway.json env var at runtime
 ENV DB_PATH=/data/voting_db
 
-# Expose port 8080
+# Render injects PORT env variable; configure Tomcat to use it via setenv.sh
+RUN echo 'export JAVA_OPTS="$JAVA_OPTS -Dport.http.nonssl=${PORT:-8080}"' >> /usr/local/tomcat/bin/setenv.sh && \
+    sed -i 's/port="8080"/port="${port.http.nonssl:-8080}"/' /usr/local/tomcat/conf/server.xml
+
+# Expose 8080 (Render maps its external port to this)
 EXPOSE 8080
 
 # Start Tomcat
