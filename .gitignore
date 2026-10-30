@@ -45,3 +45,10 @@ node_modules/
 *.tmp
 *.bak
 *.swp
+
+# ===== Scratch/debug files =====
+CheckDB.java
+CheckHash.java
+DumpDB.java
+GenerateHash.java
+*.class

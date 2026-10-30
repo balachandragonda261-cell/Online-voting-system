@@ -5,10 +5,12 @@ import java.sql.DriverManager;
 import java.sql.SQLException;
 
 public class DBConnection {
-    // Use /tmp for writable storage in Docker/cloud containers.
-    // AUTO_SERVER=TRUE removed — it tries to bind a TCP port which fails on Render/cloud.
-    // INIT removed — schema is loaded via DatabaseInitializer from classpath.
-    private static final String URL = "jdbc:h2:/tmp/voting_db;MODE=MySQL;DATABASE_TO_LOWER=TRUE";
+    // Use environment variable DB_PATH if set (for cloud), otherwise /tmp for Docker,
+    // or ./voting_db for local development.
+    private static final String DB_PATH = System.getenv("DB_PATH") != null
+            ? System.getenv("DB_PATH")
+            : (System.getProperty("os.name").toLowerCase().contains("win") ? "./voting_db" : "/tmp/voting_db");
+    private static final String URL = "jdbc:h2:" + DB_PATH + ";MODE=MySQL;DATABASE_TO_LOWER=TRUE";
     private static final String USER = "sa";
     private static final String PASSWORD = "";
 

@@ -147,13 +147,13 @@ public class VoterServlet extends HttpServlet {
 
         if (voteDAO.hasVoted(electionId, voter.getId())) {
             request.setAttribute("error", "You have already cast your vote in this election.");
-            request.getRequestDispatcher("/voter/dashboard").forward(request, response);
+            response.sendRedirect(request.getContextPath() + "/voter/dashboard");
             return;
         }
 
         if (!electionDAO.isVoterEligible(electionId, voter.getId())) {
             request.setAttribute("error", "You are not authorized to participate in this election.");
-            request.getRequestDispatcher("/voter/dashboard").forward(request, response);
+            response.sendRedirect(request.getContextPath() + "/voter/dashboard");
             return;
         }
 

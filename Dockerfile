@@ -23,8 +23,11 @@ RUN rm -rf /usr/local/tomcat/webapps/*
 # Copy built WAR to ROOT so it serves at http://host:8080/
 COPY --from=build /app/target/OnlineVotingSystem.war /usr/local/tomcat/webapps/ROOT.war
 
-# H2 database will be stored in /tmp (writable in all containers)
-RUN mkdir -p /tmp
+# H2 database stored in /data (can be mounted as a persistent volume on Railway)
+RUN mkdir -p /data
+
+# Tell the app where to store the H2 database file
+ENV DB_PATH=/data/voting_db
 
 # Expose port 8080
 EXPOSE 8080

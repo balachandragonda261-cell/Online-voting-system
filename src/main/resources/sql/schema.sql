@@ -51,7 +51,7 @@ CREATE TABLE IF NOT EXISTS votes (
     FOREIGN KEY (election_id) REFERENCES elections(id) ON DELETE CASCADE,
     FOREIGN KEY (voter_id) REFERENCES users(id) ON DELETE CASCADE,
     FOREIGN KEY (candidate_id) REFERENCES candidates(id) ON DELETE CASCADE,
-    UNIQUE KEY unique_vote (election_id, voter_id) -- Prevent duplicate voting
+    CONSTRAINT unique_vote UNIQUE (election_id, voter_id) -- Prevent duplicate voting
 );
 
 ALTER TABLE votes ADD COLUMN IF NOT EXISTS previous_hash VARCHAR(255) NOT NULL DEFAULT 'GENESIS';

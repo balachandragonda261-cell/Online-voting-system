@@ -29,7 +29,7 @@ public class VoteDAO {
     }
 
     public String getLastVoteHash() {
-        String sql = "SELECT vote_hash FROM votes ORDER BY id DESC LIMIT 1";
+        String sql = "SELECT vote_hash FROM votes ORDER BY id DESC FETCH FIRST 1 ROW ONLY";
         try (Connection conn = DBConnection.getConnection();
              PreparedStatement stmt = conn.prepareStatement(sql)) {
              
